@@ -1,3 +1,9 @@
+# DISCLAIMER: Highly Experimental Code
+
+This codebase is highly experimental and has been developed with a free-wheeling, iterative approach. It is intended for research and rapid prototyping. Expect frequent changes, potential bugs, and areas that may not adhere to best practices. Use with caution and always verify results.
+
+---
+
 # Fine-Tuning LLMs for Research
 
 This project provides a framework for fine-tuning Large Language Models (LLMs) on your own research data. The goal is to create a knowledgeable AI assistant that can help your team with its research.
@@ -54,7 +60,7 @@ Now it's time to create your `research_data.jsonl` file. It's a good idea to use
 4.  **Run the Fine-Tuning Script:** Run the `fine_tune.py` script to upload your data and create the fine-tuning job:
 
     ```bash
-    python scripts/fine_tune.py
+    python -m scripts.fine_tune
     ```
 
-5.  **Start the Job:** The script will create the job but will not start it automatically. You will need to go to the Mistral website to review the job and manually start the training process.
+5.  **Job Started Automatically:** The script will automatically create and start the fine-tuning job. You can monitor its progress and retrieve details on the Mistral website or via the API.
