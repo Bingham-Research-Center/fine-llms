@@ -6,10 +6,12 @@ Congratulations on completing your first fine-tuning job! You now have a custom 
 
 Once your fine-tuning job has successfully completed, you will get a new model ID for your fine-tuned model. You can find this model ID in the output of the `fine_tune.py` script, or by retrieving the job details from the Mistral API.
 
+For example, your fine-tuned model ID is: `ft:open-mistral-7b:2a790761:20250924:0550e55a`
+
 If you need to retrieve the job details again, you can use the following command, replacing `your_job_id` with the ID of your fine-tuning job:
 
 ```bash
-python -c "from mistralai.client import MistralClient; import os; client = MistralClient(api_key=os.environ.get('MISTRAL_API_KEY')); print(client.jobs.retrieve('your_job_id'))"
+python -c "from mistralai import Mistral; import os; client = Mistral(api_key=os.environ.get('MISTRAL_API_KEY')); print(client.fine_tuning.jobs.get('your_job_id'))"
 ```
 
 Look for the `fine_tuned_model` field in the output.

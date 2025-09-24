@@ -18,8 +18,8 @@ def convert_md_to_jsonl(md_file_path, jsonl_file_path):
                     elif line.startswith('**Answer:**'):
                         answer = line.replace('**Answer:** ', '').strip()
                 if question and answer:
-                    json_object = {"text": f"**Question:** {question}\n\n**Answer:** {answer}"}
+                    json_object = {"messages": [{"role": "user", "content": question}, {"role": "assistant", "content": answer}]}
                     jsonl_file.write(json.dumps(json_object) + '\n')
 
 if __name__ == '__main__':
-    convert_md_to_jsonl('reference-text/Q-A-DRAFT.md', 'data/Q-A-DATASET.jsonl')
+    convert_md_to_jsonl('reference-text/Q-A-DRAFT.md', 'data/Q-A-DATASET-instruct.jsonl')

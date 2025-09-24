@@ -1,4 +1,4 @@
-mistralai==0.4.2
+mistralai==1.9.10
 pdfplumber
 python-docx
 pytest

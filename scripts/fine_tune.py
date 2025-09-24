@@ -1,5 +1,6 @@
 import os
-from mistralai.client import MistralClient
+from mistralai import Mistral
+from mistralai.models import Hyperparameters, File, CompletionTrainingParametersIn, TrainingFile
 
 def main():
     """
@@ -11,15 +12,16 @@ def main():
     if not api_key:
         raise ValueError("MISTRAL_API_KEY environment variable not set")
 
-    client = MistralClient(api_key=api_key)
+    client = Mistral(api_key=api_key)
 
     # 1. Upload your training data
     try:
-        with open("data/Q-A-DATASET.jsonl", "rb") as f:
-            training_file = client.files.create(file=("Q-A-DATASET.jsonl", f))
+        with open("data/Q-A-DATASET-instruct.jsonl", "rb") as f:
+            file_obj = File(file_name="Q-A-DATASET-instruct.jsonl", content=f.read())
+            training_file = client.files.upload(file=file_obj)
         print(f"Successfully uploaded training data. File ID: {training_file.id}")
     except FileNotFoundError:
-        print("Error: data/Q-A-DATASET.jsonl not found. Please run the convert_to_jsonl.py script first.")
+        print("Error: data/Q-A-DATASET-instruct.jsonl not found. Please run the convert_to_jsonl.py script first.")
         return
     except Exception as e:
         print(f"Error uploading file: {e}")
@@ -27,9 +29,12 @@ def main():
 
     # 2. Create a fine-tuning job
     try:
-        job = client.jobs.create(
+        job = client.fine_tuning.jobs.create(
             model="open-mistral-7b",
-            training_files=[training_file.id],
+            training_files=[TrainingFile(file_id=training_file.id)],
+            hyperparameters=CompletionTrainingParametersIn(
+                epochs=1,
+            )
         )
         print(f"Fine-tuning job created with ID: {job.id}")
         print("The job has been created. Please review the job on the Mistral website.")

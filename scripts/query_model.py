@@ -1,6 +1,4 @@
-from src.models import get_model
-from mistralai.client import MistralClient
-from mistralai.models.chat_completion import ChatMessage
+from mistralai import Mistral
 import os
 
 def main():
@@ -13,10 +11,10 @@ def main():
     if not api_key:
         raise ValueError("MISTRAL_API_KEY environment variable not set")
 
-    client = MistralClient(api_key=api_key)
+    client = Mistral(api_key=api_key)
 
     # Replace this with your fine-tuned model ID
-    model_id = "your_fine_tuned_model_id"
+    model_id = "ft:open-mistral-7b:2a790761:20250924:0550e55a"
 
     while True:
         prompt = input("Enter your prompt (or 'quit' to exit): ")
@@ -24,9 +22,9 @@ def main():
             break
 
         try:
-            response = client.chat(
+            response = client.chat.complete(
                 model=model_id,
-                messages=[ChatMessage(role="user", content=prompt)]
+                messages=[{"role": "user", "content": prompt}]
             )
             print("Model response:", response.choices[0].message.content)
         except Exception as e:
