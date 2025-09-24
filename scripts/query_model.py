@@ -1,9 +1,11 @@
-import os
+from src.models import get_model
 from mistralai.client import MistralClient
+from mistralai.models.chat_completion import ChatMessage
+import os
 
 def main():
     """
-    This script takes a prompt from the user and queries the fine-tuned model.
+    This script queries a fine-tuned model.
     """
 
     # Get API key from environment variable
@@ -22,13 +24,14 @@ def main():
             break
 
         try:
-            response = client.chat.completions.create(
+            response = client.chat(
                 model=model_id,
-                messages=[{"role": "user", "content": prompt}]
+                messages=[ChatMessage(role="user", content=prompt)]
             )
             print("Model response:", response.choices[0].message.content)
         except Exception as e:
             print(f"Error querying model: {e}")
+
 
 if __name__ == "__main__":
     main()

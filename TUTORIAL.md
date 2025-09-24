@@ -25,25 +25,27 @@ The key to a successful fine-tuning project is high-quality training data. For o
 
 ### Creating Your Dataset
 
-We will create a `.jsonl` file for our training data. Here are examples of how to format each type of data:
-
-```json
-{"text": "**From paper X:** [Full text or summary of the paper]"}
-{"text": "**Question:** What was the main finding of the 2021 study on topic Y? **Answer:** The main finding was that..."}
-```
-
-**Recommendation:** Start with a small, high-quality dataset of summaries and question-answer pairs. You can always add more data later.
+We will create a `.jsonl` file for our training data. You can create your Q&A pairs in the `reference-text/Q-A-DRAFT.md` file and then use the `convert_to_jsonl.py` script to convert them to the required format.
 
 ## Part 3: The Fine-Tuning Process: A Step-by-Step Guide
 
-This section provides a beginner-friendly walkthrough of the fine-tuning process using the Mistral API and Python. Please refer to the `fine_tune.py` script in the root directory for a complete code example.
+This section provides a beginner-friendly walkthrough of the fine-tuning process using the Mistral API and Python.
 
-1.  **Set up your environment:** Make sure you have Python, the Mistral client, and your API key set up as described in `TUTORIAL.md`.
-2.  **Prepare your data:** Create your `research_data.jsonl` file with a mix of summaries and Q&A pairs.
-3.  **Upload your data:** Use the `client.files.create()` function to upload your data to Mistral.
-4.  **Create a fine-tuning job:** Use the `client.jobs.create()` function to start the fine-tuning job. Make sure to specify the model you want to use (e.g., `open-mistral-7b`).
-5.  **Monitor the job:** Use the `client.jobs.retrieve()` function to monitor the status of your job.
-6.  **Get your model ID:** Once the job is complete, you will get a new model ID for your fine-tuned model.
+1.  **Set up your environment:** Make sure you have Python and have installed the required packages from `requirements.txt`.
+2.  **Prepare your data:** Make sure your `reference-text/Q-A-DRAFT.md` file is up-to-date with your human-vetted Q&A pairs.
+3.  **Convert your data:** Run the `convert_to_jsonl.py` script to convert your Markdown Q&A pairs to the required JSONL format:
+
+    ```bash
+    python convert_to_jsonl.py
+    ```
+
+4.  **Create a fine-tuning job:** Run the `scripts/fine_tune.py` script to upload your data and create the fine-tuning job:
+
+    ```bash
+    python scripts/fine_tune.py
+    ```
+
+5.  **Start the job:** The script will create the job but will not start it automatically. You will need to go to the Mistral website to review the job and manually start the training process.
 
 ## Part 4: Evaluating Your Model: How Good is Your Assistant?
 
